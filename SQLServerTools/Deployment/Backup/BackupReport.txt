@@ -1,0 +1,43 @@
+Changed database context to 'master'.
+
+(5 rows affected)
+Msg 15247, Level 16, State 1, Server SG-CA01-DVM-002\BETA, Procedure sp_configure, Line 105
+User does not have permission to perform this action.
+Msg 5812, Level 14, State 1, Server SG-CA01-DVM-002\BETA, Line 1
+You do not have permission to run the RECONFIGURE statement.
+Msg 15247, Level 16, State 1, Server SG-CA01-DVM-002\BETA, Procedure sp_configure, Line 105
+User does not have permission to perform this action.
+Msg 5812, Level 14, State 1, Server SG-CA01-DVM-002\BETA, Line 1
+You do not have permission to run the RECONFIGURE statement.
+Msg 229, Level 14, State 5, Server SG-CA01-DVM-002\BETA, Procedure xp_cmdshell, Line 1
+The EXECUTE permission was denied on the object 'xp_cmdshell', database 'mssqlsystemresource', schema 'sys'.
+Msg 262, Level 14, State 1, Server SG-CA01-DVM-002\BETA, Line 39
+BACKUP DATABASE permission denied in database 'XifinLIS'.
+Msg 3013, Level 16, State 1, Server SG-CA01-DVM-002\BETA, Line 39
+BACKUP DATABASE is terminating abnormally.
+Msg 3201, Level 16, State 1, Server SG-CA01-DVM-002\BETA, Line 39
+Cannot open backup device 'S:SGNL_LIS\2015-12-02_SGNL_LIS_Deployment_Backup.bak'. Operating system error 3(The system cannot find the path specified.).
+Msg 3013, Level 16, State 1, Server SG-CA01-DVM-002\BETA, Line 39
+BACKUP DATABASE is terminating abnormally.
+Msg 262, Level 14, State 1, Server SG-CA01-DVM-002\BETA, Line 39
+BACKUP DATABASE permission denied in database 'SGNL_INTERNAL'.
+Msg 3013, Level 16, State 1, Server SG-CA01-DVM-002\BETA, Line 39
+BACKUP DATABASE is terminating abnormally.
+Msg 262, Level 14, State 1, Server SG-CA01-DVM-002\BETA, Line 39
+BACKUP DATABASE permission denied in database 'SGNL_FINANCE'.
+Msg 3013, Level 16, State 1, Server SG-CA01-DVM-002\BETA, Line 39
+BACKUP DATABASE is terminating abnormally.
+Msg 262, Level 14, State 1, Server SG-CA01-DVM-002\BETA, Line 39
+BACKUP DATABASE permission denied in database 'SGNL_WAREHOUSE'.
+Msg 3013, Level 16, State 1, Server SG-CA01-DVM-002\BETA, Line 39
+BACKUP DATABASE is terminating abnormally.
+Msg 229, Level 14, State 5, Server SG-CA01-DVM-002\BETA, Procedure xp_cmdshell, Line 1
+The EXECUTE permission was denied on the object 'xp_cmdshell', database 'mssqlsystemresource', schema 'sys'.
+Msg 15247, Level 16, State 1, Server SG-CA01-DVM-002\BETA, Procedure sp_configure, Line 105
+User does not have permission to perform this action.
+Msg 5812, Level 14, State 1, Server SG-CA01-DVM-002\BETA, Line 1
+You do not have permission to run the RECONFIGURE statement.
+Msg 15247, Level 16, State 1, Server SG-CA01-DVM-002\BETA, Procedure sp_configure, Line 105
+User does not have permission to perform this action.
+Msg 5812, Level 14, State 1, Server SG-CA01-DVM-002\BETA, Line 1
+You do not have permission to run the RECONFIGURE statement.

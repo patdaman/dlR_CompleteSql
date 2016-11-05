@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<Project DefaultTargets = "FireDaemon"
+    xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <!-- FireDaemon XML File for Installation -->
+  <Target Name="FireDaemon">
+    <PropertyGroup>
+      <CopyAllFilesToSingleFolderForPackageDependsOn>
+        CustomCollectFiles;
+        $(CopyAllFilesToSingleFolderForPackageDependsOn);
+      </CopyAllFilesToSingleFolderForPackageDependsOn>
+    </PropertyGroup>
+    <ItemGroup>
+      <FireDaemonInstallXml Include="$(FireDeamon)" />
+    </ItemGroup>
+    <!-- Create CMD file for deploying FireDaemon script -->
+    <ItemGroup>
+      <DeployCMDLines Include="@ECHO OFF" />
+      <DeployCMDLines Include="pushd %22C:\Program Files\FireDaemon%22" />
+      <DeployCMDLines Include="@ECHO ON" />
+      <DeployCMDLines Include="FireDaemon install %22$(MSBuildProjectDirectory)\FireDaemon.xml%22" />
+      <DeployCMDLines Include="FireDaemon start %22$(MSBuildProjectName)%22" />
+      <DeployCMDLines Include="@ECHO OFF" />
+      <DeployCMDLines Include="GOTO End" />
+      <DeployCMDLines Include="pushd %22$(MSBuildProjectDirectory)%22" />
+      <DeployCMDLines Include="pause" />
+    </ItemGroup>
+    <WriteLinesToFile File="$(PackageFolderPath)$(MSBuildProjectName).firedaemon.deploy.cmd" Lines="@(DeployCMDLines)" Overwrite="true" />
+    <ItemGroup>
+      <PackageFiles Include="$(PackageFolderPath)$(MSBuildProjectName).firedaemon.deploy.cmd" />
+      <PackageFiles Include="$(FireDaemon)" />
+    </ItemGroup>
+    <Copy SourceFiles="@(PackageFiles)" DestinationFiles="@(PackageFiles->'$(FullTargetPath)\%(Filename)%(Extension)')" />
+  </Target>
+</Project>

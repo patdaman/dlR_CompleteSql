@@ -1,0 +1,155 @@
+<?xml version="1.0"  encoding="utf-8" ?>
+<Project DefaultTargets = "Deploy"
+	xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+  <!-- Custom Edit to project file
+	- 	Property of Signal Genetics
+	- 	author: Patrick de los Reyes
+	- 	date: 2016-06-01
+	- 	Uses MsDeploy.exe to create
+	- 	a *.zip package and copy dir 
+	- 	to remotely deploy app
+	-->
+  
+      <!-- ****************** -->
+      <!-- *** Parameters *** -->
+      <!-- ****************** -->
+  
+      <!--
+       - Flavor
+       - ComputerName
+       - BuildNumber
+       - BackupFullPath
+       - FullTargetPath      
+       - FireDaemonFileName
+      -->
+
+  <UsingTask TaskName="MSDeploy" AssemblyFile="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v14.0\Web\Microsoft.Web.Publishing.Tasks.dll" />
+  <UsingTask TaskName="MSBuild" AssemblyFile="$(ProgramFiles(x86))\MSBuild\14.0\Bin\Microsoft.Build.dll" />
+  <Target Name="BuildWebPackage">
+      <MSBuild Projects="SamplePackage.sln"
+           Properties="Platform=$(Platform);
+                       Configuration=$(Configuration);
+                       DeployOnBuild=true;
+                       DeployTarget=Package;
+                       PackageLocation=$(PackageLocation);"/>
+  </Target>
+    
+  <Target Name="Deploy">
+		<PropertyGroup>
+
+		  <!-- Sets the default output path directory variable called 
+			Flavor if not set or specified on the command line -->
+		  <Flavor Condition="'$(Flavor)'==''">RELEASE</Flavor>
+      
+		  <!-- Sets the default Target ComputerName -->
+		  <TargetComputerName Condition="'$(TargetComputerName)'==''">$(ComputerName)</TargetComputerName>
+
+		  <BuildNumber Condition="'$(BuildNumber)'==''">$(BUILD_NUMBER)</BuildNumber>
+      
+		  <!-- Backup to NAS with subdirectory sorted by build #  -->
+		  <BackupFullPath Condition="'$(BackupFullPath)'==''">\\SG-CA01-NAS-001\Department\Shared_IS\Applications\$(MSBuildProjectName)</BackupFullPath>
+
+		  <!-- Full Path to Deployment Target Directory  -->
+		  <FullTargetPath Condition="'$(FullTargetPath)'==''">\\$(TargetComputerName)\SgnlApps\$(MSBuildProjectName)</FullTargetPath>
+      
+		  <!-- FireDaemon FileName.xml -->
+		  <FireDaemonFileName Condition="'$(FireDaemonFileName)'==''">FireDaemon.xml</FireDaemonFileName>
+		  <FireDaemon>$(MSBuildProjectDirectory)\$(FireDaemonFileName)</FireDaemon>
+
+		  <!--<FullOutputPath>$(MSBuildProjectDirectory)\$(OutputPath)</FullOutputPath>-->
+		  <FullOutputPath Condition="'$(FullOutputPath)'==''">$(MSBuildProjectDirectory)\bin\$(FLAVOR)</FullOutputPath>
+
+		  <PackageFilename Condition="'$(PackageFileName)'==''">$(MSBuildProjectName)_$[System.DateTime]::Now.ToString("yyyy.MM.dd")).zip</PackageFilename>
+		  <PackageFullPath>$(FullOutputPath)Package\$(PackageFilename)</PackageFullPath>
+
+		  <MSDeployDir>$(ProgramFiles)\IIS\Microsoft Web Deploy V3\</MSDeployDir>
+		  <MSDeployDir Condition="'$(MSDeployDir)'==''">$(ProgramFiles)\IIS\Microsoft Web Deploy V3\msdeploy.exe</MSDeployDir>
+
+		  <DeployCmdFilename>$(MSBuildProjectName).firedaemon.deploy.cmd</DeployCmdFilename>
+		  <DeployCmdFile>$(FullOutputPath)\$(DeployCmdFilename)</DeployCmdFile>
+		</PropertyGroup>
+
+	<!-- Separate Deployment Folder paths -->
+	<!--  <ItemGroup>
+		<SetParameterFiles Include="$(MSBuildProjectDirectory)\SetParameters.*.xml" />
+		<DeploymentFiles Include="$(MSBuildProjectDirectory)\deployment\*" />
+	  </ItemGroup>
+  
+	  <MakeDir Directories="$(PackageFullPath)" />
+	  <Copy SourceFiles="@(SetParameterFiles)" DestinationFolder="$(PackageFolderPath)" />
+	  <Copy SourceFiles="@(DeploymentFiles)" DestinationFolder="$(PackageFolderPath)\deployment" /> 
+	  -->
+
+	<!-- Check whether an output folder exists and create
+        one if necessary -->
+    <MakeDir Directories = "$(FullOutputPath)"
+        Condition = "!Exists('$(FullOutputPath)')" />
+    
+    <!-- Copy to Local Directory -->
+    <MSdeploy
+          Verb="sync"
+          Source="dirPath=&quot;$(FullOutputPath)&quot;"
+          Destination="dirPath=&quot;$(LocalFullTargetPath)&quot;"
+          ExePath="$(MSDeployDir)"
+		/>
+    
+    <!-- Copy Directory on Target Machine -->
+    <MSdeploy
+      Verb="sync"
+      Source="dirPath=&quot;$(FullOutputPath)&quot;"
+      Destination="dirPath=&quot;$(FullTargetPath)&quot;"
+      ExePath="$(MSDeployDir)"
+		/>
+    
+    <!-- Create Package -->
+    <!--
+    <MSdeploy
+      Verb="sync"
+      Source="dirPath=&quot;$(FullOutputPath)&quot;"
+      Destination="package=&quot;$(BackupFullPath)\$(MSBuildProjectName)_$(BuildNumber).zip&quot;"
+      ExePath="$(MSDeployDir)"
+		/>-->
+
+    <!-- Copy Package to NAS -->
+    <!--<MSdeploy
+      Verb="sync"
+      Source="dirPath=&quot;$(FullOutputPath)&quot;"
+      Destination="package=&quot;$(BackupFullPath)\$(PackageFilename)&quot;"
+      ExePath="$(MSDeployDir)"
+		  />-->
+
+    <!-- Copy Package to NAS -->
+	<!--
+    <MSdeploy
+      Verb="sync"
+      Source="package=&quot;$(PackageFullPath)&quot;"
+      Destination="package=&quot;$(BackupFullPath)\$(PackageFilename)&quot;"
+      ExePath="$(MSDeployDir)"
+		/>-->
+
+    <!-- 	<MSdeploy 
+		Verb="sync" 
+		Source="dirPath=&quot;$(FullOutputPath)&quot;" 
+		Destination="package=&quot;$(PackageFullPath)&quot;" 
+		ExePath="$(_MSDeployDirPath_FullPath)" 
+		ImportDeclareParametersItems="$(MSBuildProjectDirectory)\parameters.xml" /> 
+    -->
+
+    <!--  <MSDeploy
+    source="dirPath=&quot;$(FullOutputPath)&quot;"
+    dest="auto,
+      computerName=&quot;https://stageweb1:8172/MSDeploy.axd?site=DemoSite&quot;,
+      username=&quot;FABRIKAM\stagingdeployer&quot;,
+      password=&quot;Pa$$w0rd&quot;,
+      authtype=&quot;Basic&quot;,
+      includeAcls=&quot;False&quot;
+    verb="sync"
+    disableLink="AppPoolExtension"
+    disableLink="ContentExtension"
+    disableLink="CertificateExtension"
+    setParamFile="[path]\ContactManager.Mvc.SetParameters.xml"
+    allowUntrusted /> 
+    -->
+  </Target>
+</Project>

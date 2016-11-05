@@ -1,0 +1,174 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <Name>SQLServerTools</Name>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectVersion>4.1</ProjectVersion>
+    <ProjectGuid>{180d73dd-9ab5-4c09-b0d3-a142284f5479}</ProjectGuid>
+    <DSP>Microsoft.Data.Tools.Schema.Sql.Sql130DatabaseSchemaProvider</DSP>
+    <OutputType>Database</OutputType>
+    <RootPath>
+    </RootPath>
+    <RootNamespace>SQLServerTools</RootNamespace>
+    <AssemblyName>SQLServerTools</AssemblyName>
+    <ModelCollation>1033, CI</ModelCollation>
+    <DefaultFileStructure>BySchemaAndSchemaType</DefaultFileStructure>
+    <DeployToDatabase>True</DeployToDatabase>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <TargetLanguage>CS</TargetLanguage>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <SqlServerVerification>False</SqlServerVerification>
+    <IncludeCompositeObjects>True</IncludeCompositeObjects>
+    <TargetDatabaseSet>True</TargetDatabaseSet>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <OutputPath>bin\Release\</OutputPath>
+    <BuildScriptName>$(MSBuildProjectName).sql</BuildScriptName>
+    <TreatWarningsAsErrors>False</TreatWarningsAsErrors>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <DefineDebug>false</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <OutputPath>bin\Debug\</OutputPath>
+    <BuildScriptName>$(MSBuildProjectName).sql</BuildScriptName>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">11.0</VisualStudioVersion>
+    <!-- Default to the v11.0 targets path if the targets file for the current VS version is not found -->
+    <SSDTExists Condition="Exists('$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\SSDT\Microsoft.Data.Tools.Schema.SqlTasks.targets')">True</SSDTExists>
+    <VisualStudioVersion Condition="'$(SSDTExists)' == ''">11.0</VisualStudioVersion>
+  </PropertyGroup>
+  <Import Condition="'$(SQLDBExtensionsRefPath)' != ''" Project="$(SQLDBExtensionsRefPath)\Microsoft.Data.Tools.Schema.SqlTasks.targets" />
+  <Import Condition="'$(SQLDBExtensionsRefPath)' == ''" Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\SSDT\Microsoft.Data.Tools.Schema.SqlTasks.targets" />
+  <ItemGroup>
+    <Folder Include="Properties" />
+    <Folder Include="ClrFunctions" />
+    <Folder Include="StoredProcs" />
+    <Folder Include="TSQLFunctions" />
+    <Folder Include="Functions" />
+    <Folder Include="User Defined Types" />
+    <Folder Include="ContinuousIntegration" />
+    <Folder Include="Build" />
+    <Folder Include="Deployment" />
+    <Folder Include="MiscScripts" />
+    <Folder Include="MiscScripts\Backup_Restore" />
+    <Folder Include="MiscScripts\Azure" />
+    <Folder Include="MiscScripts\ExploreDatabase" />
+    <Folder Include="ContinuousIntegration\sql" />
+    <Folder Include="ContinuousIntegration\cmd" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="ClrFunctions\ExportUtility.cs" />
+    <Compile Include="ClrFunctions\GroupConcat.cs" />
+    <Compile Include="ClrFunctions\Regex.cs" />
+    <Compile Include="ClrFunctions\TryParseFunctions.cs" />
+    <Compile Include="ClrFunctions\ExportToExcel.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Build Include="TSQLFunctions\udf_Split.sql" />
+    <Build Include="TSQLFunctions\udf_String_SimilarityDistance.sql" />
+    <Build Include="StoredProcs\usp_CreatePivotTable.sql" />
+    <Build Include="StoredProcs\usp_GenerateAuditTables.sql" />
+    <Build Include="StoredProcs\usp_GenerateEtlStoredProcs.sql" />
+    <Build Include="StoredProcs\usp_InsertErrorDetails.sql" />
+    <Build Include="StoredProcs\usp_SearchAuditTablesForInvalidUser.sql" />
+    <Build Include="StoredProcs\usp_UpdatePivotTable.sql" />
+    <Build Include="Functions\fnDoubleMetaphoneScalar_1.sql" />
+    <Build Include="Functions\fnDoubleMetaphoneTable_1.sql" />
+    <Build Include="Functions\fnIsVowel_1.sql" />
+    <Build Include="Functions\fnSlavoGermanic_1.sql" />
+    <Build Include="Functions\fnStringAt_1.sql" />
+    <Build Include="Functions\fnStringAtDef_1.sql" />
+    <Build Include="Functions\udf_FirstTwoWords_1.sql" />
+    <Build Include="Functions\udf_MatchPatient_1.sql" />
+    <Build Include="Functions\udf_String_SimilarityDistance_1.sql" />
+    <Build Include="StoredProcs\usp_ImportDedupePatients_1.sql" />
+    <Build Include="Functions\udf_DelimitedSplit.sql" />
+    <Build Include="StoredProcs\usp_AddViewSelectPermissions.sql" />
+    <Build Include="StoredProcs\usp_Create_PerfTestValidateJob.sql" />
+    <Build Include="StoredProcs\usp_CreateUnionView.sql" />
+    <Build Include="StoredProcs\usp_WarehouseValidation.sql" />
+    <Build Include="StoredProcs\usp_ViewErrorTables.sql" />
+    <Build Include="StoredProcs\usp_VerifyRepeatPatientClient.sql" />
+    <Build Include="StoredProcs\usp_TestBillingSuitePerf.sql" />
+    <Build Include="StoredProcs\usp_Report_WriteCsvToDisk_1.sql" />
+    <Build Include="StoredProcs\usp_Report_EmailCsv_1.sql" />
+    <Build Include="StoredProcs\usp_RemoveUnwantedCases.sql" />
+    <Build Include="StoredProcs\usp_PerformanceTest_EndUser_2.sql" />
+    <Build Include="StoredProcs\usp_PerfMonJobs.sql" />
+    <Build Include="StoredProcs\usp_PerfMon.sql" />
+    <Build Include="StoredProcs\usp_JobIsRunning.sql" />
+    <Build Include="User Defined Types\CaseListType.sql" />
+    <Build Include="Functions\udf_CommaDelimStrToRows.sql" />
+    <Build Include="MiscScripts\CreatePivotTable.sql" />
+    <Build Include="MiscScripts\EmailAlerts.sql" />
+    <Build Include="MiscScripts\ForceCloseLoginConnections.sql" />
+    <Build Include="MiscScripts\GetClientDoctorContactInfo.sql" />
+    <Build Include="MiscScripts\MoveTempDb.sql" />
+    <Build Include="MiscScripts\SendLabMessageAlert.sql" />
+    <Build Include="MiscScripts\Backup_Restore\BackupDevDbToNas.sql" />
+    <Build Include="MiscScripts\Backup_Restore\BackupProdDbToNas.sql" />
+    <Build Include="MiscScripts\Backup_Restore\BackupToBlobStorage.sql" />
+    <Build Include="MiscScripts\Backup_Restore\Express_BackupDatabase_TransactionLogs.sql" />
+    <Build Include="MiscScripts\Backup_Restore\RestoreDevDatabasesFromNAS.sql" />
+    <Build Include="MiscScripts\Backup_Restore\RestoreProductionDatabasesFromNAS.sql" />
+    <Build Include="MiscScripts\Azure\AddAzureBlobCredential.sql" />
+    <Build Include="MiscScripts\Azure\AttachDbBlobStorage.sql" />
+    <Build Include="MiscScripts\Azure\Azure_SQL_Server_Add_Sql_Login.sql" />
+    <Build Include="MiscScripts\Azure\Azure_SQL_Server_Add_Windows_Logins_Users.sql" />
+    <Build Include="MiscScripts\Azure\Azure_SQL_Server_Alter_Users.sql" />
+    <Build Include="MiscScripts\Azure\Azure_SQL_Server_Create_External_Data_Table.sql" />
+    <Build Include="MiscScripts\Azure\CopyAzureDatabase.sql" />
+    <Build Include="MiscScripts\Azure\DropAndRecreateAzureDatabase.sql" />
+    <Build Include="MiscScripts\Azure\UpdateDevRolesOnCopies.sql" />
+    <Build Include="MiscScripts\ExploreDatabase\DatabaseExploreScripts.sql" />
+    <Build Include="MiscScripts\ExploreDatabase\FindLoginOwnedObjects.sql" />
+    <Build Include="Build\AutoDbUpdateUserRole.sql" />
+    <Build Include="ContinuousIntegration\sql\AutoDbRestore.sql" />
+    <Build Include="ContinuousIntegration\sql\AutoDbUpdateUserRole.sql" />
+    <Build Include="ContinuousIntegration\sql\RestoreProdDbFromBak.sql" />
+    <Build Include="ContinuousIntegration\sql\UpdateDevRolesOnMirror.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="MiscScripts\Azure\CopyAzureDatabase.cmd" />
+    <None Include="MiscScripts\Azure\GeoRedundancy_PowershellCommands.ps1" />
+    <None Include="MiscScripts\Azure\GetGeoReplicationHealth.ps1" />
+    <None Include="Deployment\DeployBatScript.bat" />
+    <None Include="Build\AutoDbDeploy.cmd" />
+    <None Include="Build\AutoDbRoleUpdate.cmd" />
+    <None Include="Build\Build.cmd" />
+    <None Include="Build\Build.db.targets" />
+    <None Include="Build\Compile.db.targets" />
+    <None Include="Build\DbDeployment.class.targets" />
+    <None Include="Build\DbDeploySignalCi.cmd" />
+    <None Include="Build\Deploy.db.targets" />
+    <None Include="Build\ExportBacpac.cmd" />
+    <None Include="Build\FireDaemon.db.targets" />
+    <None Include="Build\ImportBacpac.cmd" />
+    <None Include="Build\ImportDeploy.db.cmd" />
+    <None Include="ContinuousIntegration\cmd\ExportBacpac.cmd" />
+    <None Include="ContinuousIntegration\cmd\ImportBacpac.cmd" />
+    <None Include="ContinuousIntegration\AutoDbBuild.cmd" />
+    <None Include="ContinuousIntegration\AutoDbDeploy.cmd" />
+    <None Include="ContinuousIntegration\AutoDbRestore.cmd" />
+    <None Include="ContinuousIntegration\AutoDbRoleUpdate.cmd" />
+    <None Include="ContinuousIntegration\DbDeploySignalCi.cmd" />
+    <None Include="ContinuousIntegration\ExportBacpac.cmd" />
+    <None Include="ContinuousIntegration\ImportBacpac.cmd" />
+  </ItemGroup>
+</Project>
