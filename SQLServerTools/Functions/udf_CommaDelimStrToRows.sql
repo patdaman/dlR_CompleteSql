@@ -8,12 +8,11 @@ BEGIN
         BEGIN
               SET @IntLocation =   CHARINDEX(',',    @CommadelimitedString, 0)      
               INSERT INTO   @Result (id, Val)
-              --LTRIM and RTRIM to ensure blank spaces are   removed
               SELECT @cnt, RTRIM(LTRIM(SUBSTRING(@CommadelimitedString,   0, @IntLocation)))   
               SET @CommadelimitedString = STUFF(@CommadelimitedString,   1, @IntLocation,   '') 
 			  SET @cnt = @cnt+1
         END
         INSERT INTO   @Result (id, Val)
-        SELECT @cnt, RTRIM(LTRIM(@CommadelimitedString))--LTRIM and RTRIM to ensure blank spaces are removed
+        SELECT @cnt, RTRIM(LTRIM(@CommadelimitedString))		--LTRIM and RTRIM to ensure blank spaces are removed
         RETURN 
 END

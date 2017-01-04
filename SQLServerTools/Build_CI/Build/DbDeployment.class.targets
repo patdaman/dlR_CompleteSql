@@ -1,0 +1,28 @@
+  <!-- Add this text at the beginning
+	of the *.csproj file in the 
+	root directory of the project. 
+	Usually immediately following these lines:
+	******************************************
+	<?xml version="1.0" encoding="utf-8"?>
+	<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  -->
+
+  <!-- For auto-deployment -->
+  <!-- Custom Edit to project file
+	- 	Property of Signal Genetics
+	- 	author: Patrick de los Reyes
+	- 	date: 2016-06-01
+	- 	Uses MsDeploy.exe to create
+	- 	a *.zip package and *.cmd 
+	- 	to remotely deploy app
+	-->
+  
+  <!-- <Import Project="$(MSBuildProjectDirectory)\$(MSBuildProjectName).app.targets" /> -->
+  <Import Project="..\..\..\Lib\SignalBuild\SGNLCompile.app.targets" />
+  <Import Project="..\..\..\Lib\SignalBuild\SGNLBuild.app.targets" />
+  <Import Project="..\..\..\Lib\SignalBuild\SGNLDeploy.app.targets" />
+  <Import Project="$(SlowCheetahTargets)" Condition="Exists('$(SlowCheetahTargets)')" />
+  <!-- <Import Project="..\..\Lib\SignalBuild\SGNLFireDaemon.app.targets" /> -->
+  
+  <!-- End Custom Edit -->
+
