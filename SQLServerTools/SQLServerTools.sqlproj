@@ -78,6 +78,7 @@
     <Compile Include="ClrFunctions\Regex.cs" />
     <Compile Include="ClrFunctions\TryParseFunctions.cs" />
     <Compile Include="ClrFunctions\ExportToExcel.cs" />
+    <Compile Include="ClrFunctions\LevenshteinDistance.cs" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="TSQLFunctions\udf_Split.sql" />
@@ -88,17 +89,7 @@
     <Build Include="StoredProcs\usp_InsertErrorDetails.sql" />
     <Build Include="StoredProcs\usp_SearchAuditTablesForInvalidUser.sql" />
     <Build Include="StoredProcs\usp_UpdatePivotTable.sql" />
-    <Build Include="Functions\fnDoubleMetaphoneScalar_1.sql" />
-    <Build Include="Functions\fnDoubleMetaphoneTable_1.sql" />
-    <Build Include="Functions\fnIsVowel_1.sql" />
-    <Build Include="Functions\fnSlavoGermanic_1.sql" />
-    <Build Include="Functions\fnStringAt_1.sql" />
-    <Build Include="Functions\fnStringAtDef_1.sql" />
-    <Build Include="Functions\udf_FirstTwoWords_1.sql" />
-    <Build Include="Functions\udf_MatchPatient_1.sql" />
-    <Build Include="Functions\udf_String_SimilarityDistance_1.sql" />
     <Build Include="StoredProcs\usp_ImportDedupePatients_1.sql" />
-    <Build Include="Functions\udf_DelimitedSplit.sql" />
     <Build Include="StoredProcs\usp_AddViewSelectPermissions.sql" />
     <Build Include="StoredProcs\usp_Create_PerfTestValidateJob.sql" />
     <Build Include="StoredProcs\usp_CreateUnionView.sql" />
@@ -114,7 +105,6 @@
     <Build Include="StoredProcs\usp_PerfMon.sql" />
     <Build Include="StoredProcs\usp_JobIsRunning.sql" />
     <Build Include="User Defined Types\CaseListType.sql" />
-    <Build Include="Functions\udf_CommaDelimStrToRows.sql" />
     <Build Include="MiscScripts\CreatePivotTable.sql" />
     <Build Include="MiscScripts\EmailAlerts.sql" />
     <Build Include="MiscScripts\ForceCloseLoginConnections.sql" />
@@ -143,6 +133,15 @@
     <Build Include="ContinuousIntegration\sql\AutoDbUpdateUserRole.sql" />
     <Build Include="ContinuousIntegration\sql\RestoreProdDbFromBak.sql" />
     <Build Include="ContinuousIntegration\sql\UpdateDevRolesOnMirror.sql" />
+    <Build Include="Functions\fnDoubleMetaphoneScalar.sql" />
+    <Build Include="Functions\fnDoubleMetaphoneTable.sql" />
+    <Build Include="Functions\fnIsVowel.sql" />
+    <Build Include="Functions\fnSlavoGermanic.sql" />
+    <Build Include="Functions\fnStringAt.sql" />
+    <Build Include="Functions\fnStringAtDef.sql" />
+    <Build Include="Functions\udf_FirstTwoWords.sql" />
+    <Build Include="Functions\udf_MatchPatient.sql" />
+    <Build Include="Functions\udf_String_SimilarityDistance.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="MiscScripts\Azure\CopyAzureDatabase.cmd" />
@@ -170,5 +169,10 @@
     <None Include="ContinuousIntegration\DbDeploySignalCi.cmd" />
     <None Include="ContinuousIntegration\ExportBacpac.cmd" />
     <None Include="ContinuousIntegration\ImportBacpac.cmd" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
   </ItemGroup>
 </Project>

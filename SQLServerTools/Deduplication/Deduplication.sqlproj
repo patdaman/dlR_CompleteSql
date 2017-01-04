@@ -67,4 +67,7 @@
     <Build Include="Functions\fnDoubleMetaphoneScalar.sql" />
     <Build Include="Functions\fnDoubleMetaphoneTable.sql" />
   </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Functions\LevenshteinDistance.cs" />
+  </ItemGroup>
 </Project>
