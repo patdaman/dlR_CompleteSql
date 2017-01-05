@@ -4,16 +4,16 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <Name>ExploreArchitecture_Performance</Name>
+    <Name>Azure</Name>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectVersion>4.1</ProjectVersion>
-    <ProjectGuid>{4ba7b605-75fa-4698-b196-621973944c6e}</ProjectGuid>
+    <ProjectGuid>{a7286902-d6f5-4864-bdf5-c963db9a5f43}</ProjectGuid>
     <DSP>Microsoft.Data.Tools.Schema.Sql.Sql130DatabaseSchemaProvider</DSP>
     <OutputType>Database</OutputType>
     <RootPath>
     </RootPath>
-    <RootNamespace>ExploreArchitecture_Performance</RootNamespace>
-    <AssemblyName>ExploreArchitecture_Performance</AssemblyName>
+    <RootNamespace>Azure</RootNamespace>
+    <AssemblyName>Azure</AssemblyName>
     <ModelCollation>1033, CI</ModelCollation>
     <DefaultFileStructure>BySchemaAndSchemaType</DefaultFileStructure>
     <DeployToDatabase>True</DeployToDatabase>
@@ -57,12 +57,22 @@
   <Import Condition="'$(SQLDBExtensionsRefPath)' == ''" Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\SSDT\Microsoft.Data.Tools.Schema.SqlTasks.targets" />
   <ItemGroup>
     <Folder Include="Properties" />
-    <Folder Include="ExploreDatabase" />
+    <Folder Include="Azure" />
   </ItemGroup>
   <ItemGroup>
-    <Build Include="ExploreDatabase\DatabaseExploreScripts.sql" />
-    <Build Include="ExploreDatabase\FindLoginOwnedObjects.sql" />
-    <Build Include="ForceCloseLoginConnections.sql" />
-    <Build Include="MoveTempDb.sql" />
+    <Build Include="Azure\AddAzureBlobCredential.sql" />
+    <Build Include="Azure\AttachDbBlobStorage.sql" />
+    <Build Include="Azure\Azure_SQL_Server_Add_Sql_Login.sql" />
+    <Build Include="Azure\Azure_SQL_Server_Add_Windows_Logins_Users.sql" />
+    <Build Include="Azure\Azure_SQL_Server_Alter_Users.sql" />
+    <Build Include="Azure\Azure_SQL_Server_Create_External_Data_Table.sql" />
+    <Build Include="Azure\CopyAzureDatabase.sql" />
+    <Build Include="Azure\DropAndRecreateAzureDatabase.sql" />
+    <Build Include="Azure\UpdateDevRolesOnCopies.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Azure\CopyAzureDatabase.cmd" />
+    <None Include="Azure\GeoRedundancy_PowershellCommands.ps1" />
+    <None Include="Azure\GetGeoReplicationHealth.ps1" />
   </ItemGroup>
 </Project>
