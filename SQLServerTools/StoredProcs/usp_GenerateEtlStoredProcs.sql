@@ -33,21 +33,13 @@ DECLARE @COLUMNTYPE VARCHAR(128) = ''
 DECLARE @SQL VARCHAR(MAX) = ''
 DECLARE @SQL_HEADER VARCHAR(MAX) = ''
 DECLARE @SQL_FOOTER VARCHAR(MAX) = ''
-DECLARE @SQL_UPDATE_1 VARCHAR(MAX) = ''
-DECLARE @SQL_UPDATE_2 VARCHAR(MAX) = ''
-DECLARE @SQL_UPDATE_3 VARCHAR(MAX) = ''
-DECLARE @SQL_UPDATE_4 VARCHAR(MAX) = ''
-DECLARE @SQL_UPDATE_5 VARCHAR(MAX) = ''
+DECLARE @SQL_UPDATE VARCHAR(MAX) = ''
 DECLARE @SQL_INSERT_COLUMNS VARCHAR(MAX) = ''
 DECLARE @SQL_INSERT_VALUES VARCHAR(MAX) = ''
 DECLARE @USERNAME VARCHAR(100) = ''
 DECLARE @CRLF VARCHAR(2) = CHAR(13) + CHAR(10)
 
-SET @SQL_UPDATE_1 = COALESCE(@SQL_UPDATE_1, '')
-SET @SQL_UPDATE_2 = COALESCE(@SQL_UPDATE_2, '')
-SET @SQL_UPDATE_3 = COALESCE(@SQL_UPDATE_3, '')
-SET @SQL_UPDATE_4 = COALESCE(@SQL_UPDATE_4, '')
-SET @SQL_UPDATE_5 = COALESCE(@SQL_UPDATE_5, '')
+SET @SQL_UPDATE = COALESCE(@SQL_UPDATE, ' ')
 
 DECLARE TABLECOLUMNS CURSOR FOR
 
@@ -135,9 +127,7 @@ OPEN TABLE_COLUMNS
 FETCH NEXT FROM TABLE_COLUMNS INTO @COLUMN_NAME
 WHILE @@FETCH_STATUS = 0
 BEGIN
---IF LEN(@SQL_UPDATE_1) < 7000
---BEGIN
-	SET @SQL_UPDATE_1 = @SQL_UPDATE_1 + @CRLF 
+	SET @SQL_UPDATE = @SQL_UPDATE + @CRLF 
 		+ '		UPDATE A SET ' + @CRLF
 		+ '			A.[' + @COLUMN_NAME + '] = B.[' + @COLUMN_NAME + ']' + @CRLF
 		+ '			, A.LastModifiedUser = ''' + @USER_NAME + ''' ' + @CRLF
@@ -150,71 +140,6 @@ BEGIN
 		+ '		WHERE C.' + @KEY_FIRST_VAR + ' IS NULL ' + @CRLF
 		+ '			AND COALESCE(A.[' + @COLUMN_NAME + '],'''') <> COALESCE(B.[' + @COLUMN_NAME + '],'''') ' + @CRLF
 		+ '			AND COALESCE(B.[' + @COLUMN_NAME + '],'''') <> '''' ' 
---END
---ELSE IF LEN(@SQL_UPDATE_2) < 7000
---BEGIN
---	SET @SQL_UPDATE_2 = @SQL_UPDATE_2 + @CRLF 
---		+ '		UPDATE A SET ' + @CRLF
---		+ '			A.[' + @COLUMN_NAME + '] = B.[' + @COLUMN_NAME + ']' + @CRLF
---		+ '			, A.LastModifiedUser = ''' + @USER_NAME + ''' ' + @CRLF
---		+ '			, A.LastModifiedDate = B.LastModifiedDate ' + @CRLF 
---		+ '		FROM ' + @TABLE_NAME + ' A ' + @CRLF
---		+ '			INNER JOIN ' + @PARENT_TABLE_NAME + ' B ON ' + @KEY_JOIN + @CRLF
---		+ '			INNER JOIN @ROWS D ON ' + REPLACE(@KEY_JOIN, 'B.','D.') + @CRLF
---		+ '			LEFT OUTER JOIN ' + @TABLE_NAME + '_audit C ON ' + REPLACE(@KEY_JOIN, 'B.','C.') + @CRLF
---		+ '				AND COALESCE(C.FieldName, '''') = ''' + @COLUMN_NAME + ''' ' + @CRLF 
---		+ '		WHERE C.' + @KEY_FIRST_VAR + ' IS NULL ' + @CRLF
---		+ '			AND COALESCE(A.[' + @COLUMN_NAME + '],'''') <> COALESCE(B.[' + @COLUMN_NAME + '],'''') ' + @CRLF
---		+ '			AND COALESCE(B.[' + @COLUMN_NAME + '],'''') <> '''' ' 
---END
---ELSE IF LEN(@SQL_UPDATE_3) < 7000
---BEGIN
---	SET @SQL_UPDATE_3 = @SQL_UPDATE_3 + @CRLF 
---		+ '		UPDATE A SET ' + @CRLF
---		+ '			A.[' + @COLUMN_NAME + '] = B.[' + @COLUMN_NAME + ']' + @CRLF
---		+ '			, A.LastModifiedUser = ''' + @USER_NAME + ''' ' + @CRLF
---		+ '			, A.LastModifiedDate = B.LastModifiedDate ' + @CRLF 
---		+ '		FROM ' + @TABLE_NAME + ' A ' + @CRLF
---		+ '			INNER JOIN ' + @PARENT_TABLE_NAME + ' B ON ' + @KEY_JOIN + @CRLF
---		+ '			INNER JOIN @ROWS D ON ' + REPLACE(@KEY_JOIN, 'B.','D.') + @CRLF
---		+ '			LEFT OUTER JOIN ' + @TABLE_NAME + '_audit C ON ' + REPLACE(@KEY_JOIN, 'B.','C.') + @CRLF
---		+ '				AND COALESCE(C.FieldName, '''') = ''' + @COLUMN_NAME + ''' ' + @CRLF 
---		+ '		WHERE C.' + @KEY_FIRST_VAR + ' IS NULL ' + @CRLF
---		+ '			AND COALESCE(A.[' + @COLUMN_NAME + '],'''') <> COALESCE(B.[' + @COLUMN_NAME + '],'''') ' + @CRLF
---		+ '			AND COALESCE(B.[' + @COLUMN_NAME + '],'''') <> '''' ' 
---END
---ELSE IF LEN(@SQL_UPDATE_4) < 7000
---BEGIN
---	SET @SQL_UPDATE_4 = @SQL_UPDATE_4 + @CRLF 
---		+ '		UPDATE A SET ' + @CRLF
---		+ '			A.[' + @COLUMN_NAME + '] = B.[' + @COLUMN_NAME + ']' + @CRLF
---		+ '			, A.LastModifiedUser = ''' + @USER_NAME + ''' ' + @CRLF
---		+ '			, A.LastModifiedDate = B.LastModifiedDate ' + @CRLF 
---		+ '		FROM ' + @TABLE_NAME + ' A ' + @CRLF
---		+ '			INNER JOIN ' + @PARENT_TABLE_NAME + ' B ON ' + @KEY_JOIN + @CRLF
---		+ '			INNER JOIN @ROWS D ON ' + REPLACE(@KEY_JOIN, 'B.','D.') + @CRLF
---		+ '			LEFT OUTER JOIN ' + @TABLE_NAME + '_audit C ON ' + REPLACE(@KEY_JOIN, 'B.','C.') + @CRLF
---		+ '				AND COALESCE(C.FieldName, '''') = ''' + @COLUMN_NAME + ''' ' + @CRLF 
---		+ '		WHERE C.' + @KEY_FIRST_VAR + ' IS NULL ' + @CRLF
---		+ '			AND COALESCE(A.[' + @COLUMN_NAME + '],'''') <> COALESCE(B.[' + @COLUMN_NAME + '],'''') ' + @CRLF
---		+ '			AND COALESCE(B.[' + @COLUMN_NAME + '],'''') <> '''' ' 
---END
---ELSE 
---BEGIN
---	SET @SQL_UPDATE_5 = @SQL_UPDATE_5 + @CRLF 
---		+ '		UPDATE A SET ' + @CRLF
---		+ '			A.[' + @COLUMN_NAME + '] = B.[' + @COLUMN_NAME + ']' + @CRLF
---		+ '			, A.LastModifiedUser = ''' + @USER_NAME + ''' ' + @CRLF
---		+ '			, A.LastModifiedDate = B.LastModifiedDate ' + @CRLF 
---		+ '		FROM ' + @TABLE_NAME + ' A ' + @CRLF
---		+ '			INNER JOIN ' + @PARENT_TABLE_NAME + ' B ON ' + @KEY_JOIN + @CRLF
---		+ '			INNER JOIN @ROWS D ON ' + REPLACE(@KEY_JOIN, 'B.','D.') + @CRLF
---		+ '			LEFT OUTER JOIN ' + @TABLE_NAME + '_audit C ON ' + REPLACE(@KEY_JOIN, 'B.','C.') + @CRLF
---		+ '				AND COALESCE(C.FieldName, '''') = ''' + @COLUMN_NAME + ''' ' + @CRLF 
---		+ '		WHERE C.' + @KEY_FIRST_VAR + ' IS NULL ' + @CRLF
---		+ '			AND COALESCE(A.[' + @COLUMN_NAME + '],'''') <> COALESCE(B.[' + @COLUMN_NAME + '],'''') ' + @CRLF
---		+ '			AND COALESCE(B.[' + @COLUMN_NAME + '],'''') <> '''' ' 
---END
 
 SET @SQL_INSERT_COLUMNS = @SQL_INSERT_COLUMNS
 	+ '		, ' + @COLUMN_NAME + @CRLF
@@ -282,14 +207,18 @@ SET @SQL_FOOTER = @CRLF
 	+ '		END CATCH ' + @CRLF
 	+ ' END ' + @CRLF
 
-PRINT @SQL_HEADER
-PRINT @SQL_UPDATE_1
-PRINT @SQL_UPDATE_2
-PRINT @SQL_UPDATE_3
-PRINT @SQL_UPDATE_4
-PRINT @SQL_UPDATE_5
-PRINT @SQL_FOOTER
+SET @SQL = @SQL_HEADER + @SQL_UPDATE + @SQL_FOOTER
 
-EXEC(@SQL_HEADER + @SQL_UPDATE_1 + @SQL_UPDATE_2 + @SQL_UPDATE_3 + @SQL_FOOTER)
+DECLARE @Counter INT
+SET @Counter = 0
+DECLARE @TotalPrints INT
+SET @TotalPrints = (LEN(@sql) / 4000) + 1
+WHILE @Counter < @TotalPrints 
+BEGIN
+    PRINT SUBSTRING(@SQL, @Counter * 4000, 4000)
+    SET @Counter = @Counter + 1
+END
+
+EXEC(@SQL)
 
 END
