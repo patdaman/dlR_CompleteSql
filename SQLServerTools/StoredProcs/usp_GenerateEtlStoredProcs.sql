@@ -6,11 +6,14 @@
 --				 while not overwriting user changes
 -- =============================================
 CREATE PROCEDURE [dbo].[usp_GenerateEtlStoredProcs] 
-	@TABLE_NAME sysname = 'Table_Name'
-	, @PARENT_TABLE_NAME sysname = 'vi_ETL'
-	, @USER_NAME sysname = '{Domain}\%'
-	, @FlagForReview tinyint = 0
-	, @KEY_INPUT sysname = ''
+	@TABLE_NAME				sysname = 'Table_Name'
+	, @TABLE_SCHEMA			sysname = 'dbo'
+	, @PARENT_TABLE_NAME	sysname = 'vi_ETL'
+	, @PARENT_TABLE_SCHEMA	sysname = 'dbo'
+	, @USER_NAME			sysname = '{Domain}\%'
+	, @FlagForReview		tinyint = 0
+	, @KEY_INPUT			sysname = ''
+	, @PrintOnly			bit = 1
 AS
 BEGIN
 
@@ -154,7 +157,8 @@ SET @SQL_HEADER = 'IF OBJECT_ID (''usp_Etl' + @TABLE_NAME + '_merge'', ''P'') IS
 BEGIN TRY --> 3
 	PRINT @SQL_HEADER
 	PRINT (@CRLF + 'GO' + @CRLF + @CRLF)
-	EXEC (@SQL_HEADER)
+	IF @PrintOnly = 0
+		EXEC (@SQL_HEADER)
 END TRY --< 3
 BEGIN CATCH --> 3
 	EXEC usp_InsertErrorDetails
@@ -219,6 +223,7 @@ BEGIN
     SET @Counter = @Counter + 1
 END
 
-EXEC(@SQL)
+IF @PrintOnly = 0
+	EXEC(@SQL)
 
 END

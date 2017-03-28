@@ -1,7 +1,7 @@
 ﻿
 
 -- =============================================
--- Author:		RP
+-- Author:		PdlR
 -- Create date: 11/04/2015
 -- Description: Create single view for all QuarterlyReports tables
 -- Input is: database name from database containing the tables

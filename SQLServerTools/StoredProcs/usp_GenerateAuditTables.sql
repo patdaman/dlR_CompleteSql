@@ -4,14 +4,15 @@ CREATE PROCEDURE [dbo].[usp_GenerateAuditTables]
 	-- ***************************************** --
 	-- Must match the Table Name
 	-- ***************************************** --
-	@TableName varchar(128) = 'ENTER_MY_TABLE_NAME'
+	@TableName				varchar(128) = 'ENTER_MY_TABLE_NAME'
 	-- ***************************************** --
 	-- 1 will drop and recreate the audit table
 	--	Anything else will not drop the audit table,
 	--	null value will be set to 0.
 	-- ***************************************** --
-	, @AuditNameExtention varchar(128) = '_audit'
-	, @DropAuditTable bit = 0
+	, @AuditNameExtention	varchar(128) = '_audit'
+	, @DropAuditTable		bit = 0
+	, @PrintOnly			bit = 1
 AS
 BEGIN --> 1
 	SET NOCOUNT ON
@@ -162,7 +163,8 @@ BEGIN --> 1
 		BEGIN TRY --> 3
 			PRINT @sql
 			PRINT ( @CRLF + @CRLF + ' GO ' + @CRLF + @CRLF)
-			EXEC (@sql)
+			IF @PrintOnly = 0
+				EXEC (@sql)
 		END TRY --< 3
 		BEGIN CATCH --> 3
 			EXEC usp_InsertErrorDetails
@@ -172,7 +174,8 @@ BEGIN --> 1
 		BEGIN TRY --> 3
 			PRINT @sql
 			PRINT ( @CRLF + @CRLF + ' GO ' + @CRLF + @CRLF)
-			EXEC (@sql)
+			IF @PrintOnly = 0
+				EXEC (@sql)
 		END TRY --< 3
 		BEGIN CATCH --> 3
 			EXEC usp_InsertErrorDetails
@@ -219,7 +222,8 @@ BEGIN --> 1
 		BEGIN TRY --> 3
 			PRINT @sql
 			PRINT ( @CRLF + @CRLF + ' GO ' + @CRLF + @CRLF)
-			EXEC (@sql)
+			IF @PrintOnly = 0
+				EXEC (@sql)
 		END TRY --< 3
 		BEGIN CATCH --> 3
 			EXEC usp_InsertErrorDetails

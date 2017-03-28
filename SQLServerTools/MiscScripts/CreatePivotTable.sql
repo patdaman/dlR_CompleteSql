@@ -1,7 +1,5 @@
 ﻿
-
-USE SGNL_LIS;
-
+BEGIN
 DECLARE	@ColumnWithNewColumnNames	sysname = 'ComponentCode'				-- Pivot Column
 DECLARE	@ColumnWithValues			sysname = 'DataValue'					-- Value Column
 DECLARE	@DestinationTable			sysname = 'SGNL_LIS.dbo.CaseResults'	-- New Table (Temp Table fine as well)
@@ -95,4 +93,6 @@ BEGIN
 		+ ' FROM ' + @DestinationTable
 	PRINT @query
 	EXEC (@query);
+END
+
 END
